@@ -16,8 +16,9 @@ LINE = (
 MAX_CHARS = 200
 
 
-def main() -> None:
-    text = LINE.strip()
+def _validate(line: str) -> str:
+    """Check one confession line against the competition gate and return it."""
+    text = line.strip()
     if not text:
         raise SystemExit("line is empty")
     if "\n" in text or "\r" in text:
@@ -26,11 +27,16 @@ def main() -> None:
         raise SystemExit(
             f"line is {len(text)} chars, over the {MAX_CHARS} limit"
         )
+    return text
+
+
+def main() -> None:
+    line = _validate(LINE)
     import os
 
     os.makedirs("/output", exist_ok=True)
     with open("/output/entry.txt", "w", encoding="utf-8") as f:
-        f.write(text)
+        f.write(line)
 
 
 if __name__ == "__main__":
